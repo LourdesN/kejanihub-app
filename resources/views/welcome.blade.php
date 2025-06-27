@@ -92,7 +92,7 @@ background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 23
         </div>
 
         <p class="mt-12 text-center text-black/70 text-sm">
-            Kejahub &copy; {{ now()->year }} • Built with ❤️ by Wairimu
+            Kejanihub &copy; {{ now()->year }} • Built with ❤️ by Wairimu
         </p>
     </div>
 
