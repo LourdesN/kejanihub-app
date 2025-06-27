@@ -1,25 +1,26 @@
-<!-- Tenant Id Field -->
+<!-- Tenant Field -->
 <div class="col-sm-12">
-    {!! Form::label('tenant_id', 'Tenant Id:') !!}
-    <p>{{ $lease->tenant_id }}</p>
+    {!! Form::label('tenant_id', 'Tenant:') !!}
+    <p>{{ $lease->tenant->first_name . ' ' . $lease->tenant->last_name }}</p>
 </div>
+
 
 <!-- Unit Id Field -->
 <div class="col-sm-12">
     {!! Form::label('unit_id', 'Unit Id:') !!}
-    <p>{{ $lease->unit_id }}</p>
+    <p>{{ $lease->unit->unit_number }}</p>
 </div>
 
 <!-- Start Date Field -->
 <div class="col-sm-12">
     {!! Form::label('start_date', 'Start Date:') !!}
-    <p>{{ $lease->start_date }}</p>
+    <p>{{ \Carbon\Carbon::parse($lease->start_date)->format('d-m-Y') }}</p>
 </div>
 
 <!-- End Date Field -->
 <div class="col-sm-12">
     {!! Form::label('end_date', 'End Date:') !!}
-    <p>{{ $lease->end_date }}</p>
+    <p>{{ \Carbon\Carbon::parse($lease->end_date)->format('d-m-Y') }}</p>
 </div>
 
 <!-- Deposit Amount Field -->

@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Payment;
+use Carbon\Carbon;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -18,7 +19,21 @@ class PaymentDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'payments.datatables_actions');
+        return $dataTable
+         ->editColumn('payment_date', function ($payment) {
+            return Carbon::parse($payment->payment_date)->format('d-m-Y');
+        })
+         ->editColumn('amount_paid', function ($payment) {
+            return 'Kshs ' . number_format($payment->amount_paid, 2);
+        })
+       ->editColumn('lease_id', function ($payment) {
+    $tenant = optional(optional($payment->lease)->tenant);
+    $unit = optional(optional($payment->lease)->unit);
+
+    return $tenant->first_name . ' ' . $tenant->last_name . ' - Unit ' . $unit->unit_number;
+})
+
+        ->addColumn('action', 'payments.datatables_actions');
     }
 
     /**
@@ -66,7 +81,8 @@ class PaymentDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'lease_id',
+            
+            'lease_id' => ['title' => 'Leased To'],
             'payment_date',
             'amount_paid',
             'payment_method',

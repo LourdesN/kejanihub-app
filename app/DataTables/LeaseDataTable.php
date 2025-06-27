@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Lease;
+use Carbon\Carbon;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -18,7 +19,20 @@ class LeaseDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'leases.datatables_actions');
+        return $dataTable
+         ->addColumn('tenant', function ($lease) {
+            return $lease->tenant ? $lease->tenant->first_name . ' ' . $lease->tenant->last_name : 'N/A';
+        })
+        ->addColumn('unit', function ($lease) {
+            return $lease->unit ? $lease->unit->unit_number : 'N/A';
+        })
+         ->editColumn('start_date', function ($lease) {
+            return Carbon::parse($lease->start_date)->format('d-m-Y');
+        })
+        ->editColumn('end_date', function ($lease) {
+            return Carbon::parse($lease->end_date)->format('d-m-Y');
+        })
+        ->addColumn('action', 'leases.datatables_actions');
     }
 
     /**
@@ -66,8 +80,8 @@ class LeaseDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'tenant_id',
-            'unit_id',
+            'tenant' => ['title' => 'Tenant Name'],
+            'unit' => ['title' => 'Unit Number'],
             'start_date',
             'end_date',
             'deposit_amount',

@@ -1,8 +1,9 @@
-<!-- House Id Field -->
+<!-- House Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('house_id', 'House Id:') !!}
-    {!! Form::number('house_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('house_id', 'House:') !!}
+    {!! Form::select('house_id', $houses, null, ['class' => 'form-control', 'placeholder' => 'Select House', 'required']) !!}
 </div>
+
 
 <!-- Unit Number Field -->
 <div class="form-group col-sm-6">
@@ -19,5 +20,5 @@
 <!-- Unit Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('unit_status', 'Unit Status:') !!}
-    {!! Form::text('unit_status', null, ['class' => 'form-control', 'required', 'maxlength' => 100, 'maxlength' => 100]) !!}
+    {!! Form::select('unit_status', ['Vacant' => 'Vacant', 'Occupied' => 'Occupied'], null, ['class' => 'form-control', 'required', 'placeholder' => 'Select Status']) !!}
 </div>

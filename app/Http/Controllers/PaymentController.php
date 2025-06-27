@@ -6,6 +6,7 @@ use App\DataTables\PaymentDataTable;
 use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Lease;
 use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -34,7 +35,11 @@ class PaymentController extends AppBaseController
      */
     public function create()
     {
-        return view('payments.create');
+        $leases = Lease::with(['tenant', 'unit'])->get()->mapWithKeys(function ($lease) {
+        return [$lease->id => $lease->tenant->first_name . ' ' . $lease->tenant->last_name . ' - ' . $lease->unit->unit_number];
+        });
+
+        return view('payments.create', compact('leases'));
     }
 
     /**
@@ -79,8 +84,10 @@ class PaymentController extends AppBaseController
 
             return redirect(route('payments.index'));
         }
-
-        return view('payments.edit')->with('payment', $payment);
+           $leases = Lease::with(['tenant', 'unit'])->get()->mapWithKeys(function ($lease) {
+         return [$lease->id => $lease->tenant->first_name . ' ' . $lease->tenant->last_name . ' - ' . $lease->unit->unit_number];
+        });
+        return view('payments.edit')->with('payment', $payment )->with('leases', $leases);
     }
 
     /**

@@ -29,5 +29,8 @@ class Unit extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+    public function house()
+    {
+    return $this->belongsTo(House::class);
+   }    
 }

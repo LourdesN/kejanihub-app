@@ -18,7 +18,19 @@ class UnitDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'units.datatables_actions');
+        return $dataTable
+        ->addColumn('house_name', function ($unit) {
+            return $unit->house->name ?? 'N/A';
+        })
+        ->editColumn('monthly_rent', function ($unit) {
+            return 'Kshs ' . number_format($unit->monthly_rent, 2);
+        })
+        ->editColumn('unit_status', function ($unit) {
+                return $unit->unit_status === 'Vacant' ? '<span class="badge badge-success">Vacant</span>' : '<span class="badge badge-danger">Occupied</span>';
+            })
+        ->rawColumns(['unit_status', 'action'])
+        
+        ->addColumn('action', 'units.datatables_actions');
     }
 
     /**
@@ -66,7 +78,7 @@ class UnitDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'house_id',
+            'house_name' => ['title' => 'House Name'],
             'unit_number',
             'monthly_rent',
             'unit_status'

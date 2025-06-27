@@ -6,9 +6,12 @@ use App\DataTables\LeaseDataTable;
 use App\Http\Requests\CreateLeaseRequest;
 use App\Http\Requests\UpdateLeaseRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Tenant;
+use App\Models\Unit;
 use App\Repositories\LeaseRepository;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\DB;
 
 class LeaseController extends AppBaseController
 {
@@ -34,7 +37,10 @@ class LeaseController extends AppBaseController
      */
     public function create()
     {
-        return view('leases.create');
+      $tenants = Tenant::select(DB::raw("CONCAT(first_name, ' ', last_name) AS full_name"), 'id')
+                ->pluck('full_name', 'id');
+        $units =Unit::pluck('unit_number', 'id');
+        return view('leases.create', compact('tenants', 'units'));
     }
 
     /**
@@ -79,8 +85,10 @@ class LeaseController extends AppBaseController
 
             return redirect(route('leases.index'));
         }
-
-        return view('leases.edit')->with('lease', $lease);
+        $tenants = Tenant::select(DB::raw("CONCAT(first_name, ' ', last_name) AS full_name"), 'id')
+                ->pluck('full_name', 'id');
+        $units =Unit::pluck('unit_number', 'id');
+        return view('leases.edit')->with('lease', $lease )->with('tenants', $tenants)->with('units', $units);
     }
 
     /**

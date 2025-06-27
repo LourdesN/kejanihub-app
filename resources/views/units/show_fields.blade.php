@@ -1,7 +1,7 @@
 <!-- House Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('house_id', 'House Id:') !!}
-    <p>{{ $unit->house_id }}</p>
+    {!! Form::label('house_id', 'House:') !!}
+    <p>{{ $unit->house->id }}</p>
 </div>
 
 <!-- Unit Number Field -->
@@ -19,6 +19,15 @@
 <!-- Unit Status Field -->
 <div class="col-sm-12">
     {!! Form::label('unit_status', 'Unit Status:') !!}
-    <p>{{ $unit->unit_status }}</p>
+    <p>
+        @if ($unit->unit_status === 'Vacant')
+            <span class="badge badge-success">Vacant</span>
+        @elseif ($unit->unit_status === 'Occupied')
+            <span class="badge badge-danger">Occupied</span>
+        @else
+            <span class="badge badge-secondary">{{ $unit->unit_status }}</span>
+        @endif
+    </p>
 </div>
+
 

@@ -34,5 +34,13 @@ class Lease extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
 }

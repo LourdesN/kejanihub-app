@@ -1,19 +1,19 @@
 <!-- Tenant Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tenant_id', 'Tenant Id:') !!}
-    {!! Form::number('tenant_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('tenant_id', 'Tenant:') !!}
+    {!! Form::select('tenant_id', $tenants, null, ['class' => 'form-control', 'placeholder' => 'Select Tenant',  'required']) !!}
 </div>
 
 <!-- Unit Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('unit_id', 'Unit Id:') !!}
-    {!! Form::number('unit_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('unit_id', 'Unit:') !!}
+    {!! Form::select('unit_id', $units, null, ['class' => 'form-control', 'placeholder' => 'Select Unit',  'required']) !!}
 </div>
 
 <!-- Start Date Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('start_date', 'Start Date:') !!}
-    {!! Form::text('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
+    {!! Form::date('start_date', null, ['class' => 'form-control','id'=>'start_date']) !!}
 </div>
 
 @push('page_scripts')
@@ -25,7 +25,7 @@
 <!-- End Date Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('end_date', 'End Date:') !!}
-    {!! Form::text('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
+    {!! Form::date('end_date', null, ['class' => 'form-control','id'=>'end_date']) !!}
 </div>
 
 @push('page_scripts')
@@ -43,5 +43,10 @@
 <!-- Lease Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lease_status', 'Lease Status:') !!}
-    {!! Form::text('lease_status', null, ['class' => 'form-control', 'maxlength' => 100, 'maxlength' => 100]) !!}
+    {!! Form::select('lease_status', [
+        'active' => 'Active',
+        'pending' => 'Pending',
+        'terminated' => 'Terminated',
+        'expired' => 'Expired'
+    ], null, ['class' => 'form-control', 'placeholder' => 'Select Lease Status']) !!}
 </div>

@@ -6,6 +6,7 @@ use App\DataTables\UnitDataTable;
 use App\Http\Requests\CreateUnitRequest;
 use App\Http\Requests\UpdateUnitRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\House;
 use App\Repositories\UnitRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -34,7 +35,8 @@ class UnitController extends AppBaseController
      */
     public function create()
     {
-        return view('units.create');
+        $houses = House::pluck('name', 'id');
+        return view('units.create', compact('houses'));
     }
 
     /**
@@ -79,8 +81,8 @@ class UnitController extends AppBaseController
 
             return redirect(route('units.index'));
         }
-
-        return view('units.edit')->with('unit', $unit);
+        $houses = House::pluck('name', 'id');
+        return view('units.edit')->with('unit', $unit )->with('houses', $houses);
     }
 
     /**

@@ -34,6 +34,13 @@ class Payment extends Model
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
-
+    public function lease()
+    {
+        return $this->belongsTo(\App\Models\Lease::class, 'lease_id');
+    }
+    public function tenant()
+    {
+        return $this->belongsTo(\App\Models\Tenant::class, 'tenant_id');
+    }
     
 }
