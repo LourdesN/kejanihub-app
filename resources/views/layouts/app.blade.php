@@ -113,5 +113,8 @@
     }
 
         </style>
+        
+        @include('sweetalert::alert')
+
     </body>
 </x-laravel-ui-adminlte::adminlte-layout>

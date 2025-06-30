@@ -10,6 +10,7 @@ use App\Models\House;
 use App\Repositories\UnitRepository;
 use Illuminate\Http\Request;
 use Flash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UnitController extends AppBaseController
 {
@@ -48,7 +49,7 @@ class UnitController extends AppBaseController
 
         $unit = $this->unitRepository->create($input);
 
-        Flash::success('Unit saved successfully.');
+        Alert::success('Success','Unit saved successfully.');
 
         return redirect(route('units.index'));
     }
@@ -61,7 +62,7 @@ class UnitController extends AppBaseController
         $unit = $this->unitRepository->find($id);
 
         if (empty($unit)) {
-            Flash::error('Unit not found');
+            Alert::error('Error','Unit not found');
 
             return redirect(route('units.index'));
         }
@@ -77,7 +78,7 @@ class UnitController extends AppBaseController
         $unit = $this->unitRepository->find($id);
 
         if (empty($unit)) {
-            Flash::error('Unit not found');
+            Alert::error('Error','Unit not found');
 
             return redirect(route('units.index'));
         }
@@ -93,14 +94,14 @@ class UnitController extends AppBaseController
         $unit = $this->unitRepository->find($id);
 
         if (empty($unit)) {
-            Flash::error('Unit not found');
+            Alert::error('Error','Unit not found');
 
             return redirect(route('units.index'));
         }
 
         $unit = $this->unitRepository->update($request->all(), $id);
 
-        Flash::success('Unit updated successfully.');
+        Alert::success('Success','Unit updated successfully.');
 
         return redirect(route('units.index'));
     }
@@ -115,14 +116,14 @@ class UnitController extends AppBaseController
         $unit = $this->unitRepository->find($id);
 
         if (empty($unit)) {
-            Flash::error('Unit not found');
+            Alert::error('Error','Unit not found');
 
             return redirect(route('units.index'));
         }
 
         $this->unitRepository->delete($id);
 
-        Flash::success('Unit deleted successfully.');
+        Alert::success('Success','Unit deleted successfully.');
 
         return redirect(route('units.index'));
     }

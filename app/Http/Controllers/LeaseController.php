@@ -11,8 +11,8 @@ use App\Models\Tenant;
 use App\Models\Unit;
 use App\Repositories\LeaseRepository;
 use Illuminate\Http\Request;
-use Flash;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LeaseController extends AppBaseController
 {
@@ -56,7 +56,7 @@ class LeaseController extends AppBaseController
     $unit->unit_status = 'Occupied';
     $unit->save();
 
-    Flash::success('Lease saved successfully.');
+    Alert::success('Success','Lease saved successfully and unit status updated.');
     return redirect(route('leases.index'));
 }
 
@@ -69,7 +69,7 @@ class LeaseController extends AppBaseController
         $lease = $this->leaseRepository->find($id);
 
         if (empty($lease)) {
-            Flash::error('Lease not found');
+            Alert::error('Error','Lease not found');
 
             return redirect(route('leases.index'));
         }
@@ -85,7 +85,7 @@ class LeaseController extends AppBaseController
         $lease = $this->leaseRepository->find($id);
 
         if (empty($lease)) {
-            Flash::error('Lease not found');
+            Alert::error('Error','Lease not found');
 
             return redirect(route('leases.index'));
         }
@@ -103,14 +103,14 @@ class LeaseController extends AppBaseController
         $lease = $this->leaseRepository->find($id);
 
         if (empty($lease)) {
-            Flash::error('Lease not found');
+            Alert::error('Error','Lease not found');
 
             return redirect(route('leases.index'));
         }
 
         $lease = $this->leaseRepository->update($request->all(), $id);
 
-        Flash::success('Lease updated successfully.');
+        Alert::success('Success','Lease updated successfully.');
 
         return redirect(route('leases.index'));
     }
@@ -136,7 +136,7 @@ class LeaseController extends AppBaseController
         }
     }
 
-    Flash::success('Lease deleted successfully.');
+    Alert::success('Success','Lease deleted successfully and unit status updated.');
     return redirect(route('leases.index'));
 }
 

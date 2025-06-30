@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateHouseRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\HouseRepository;
 use Illuminate\Http\Request;
-use Flash;
+use RealRashid\SweetAlert\Facades\Alert as Alert;
 
 class HouseController extends AppBaseController
 {
@@ -46,7 +46,7 @@ class HouseController extends AppBaseController
 
         $house = $this->houseRepository->create($input);
 
-        Flash::success('House saved successfully.');
+        Alert::success('Success', 'House saved successfully.');
 
         return redirect(route('houses.index'));
     }
@@ -59,7 +59,7 @@ class HouseController extends AppBaseController
         $house = $this->houseRepository->find($id);
 
         if (empty($house)) {
-            Flash::error('House not found');
+            Alert::error('Error','House not found');
 
             return redirect(route('houses.index'));
         }
@@ -75,7 +75,7 @@ class HouseController extends AppBaseController
         $house = $this->houseRepository->find($id);
 
         if (empty($house)) {
-            Flash::error('House not found');
+            Alert::error('Error','House not found');
 
             return redirect(route('houses.index'));
         }
@@ -91,14 +91,14 @@ class HouseController extends AppBaseController
         $house = $this->houseRepository->find($id);
 
         if (empty($house)) {
-            Flash::error('House not found');
+            Alert::error('Error','House not found');
 
             return redirect(route('houses.index'));
         }
 
         $house = $this->houseRepository->update($request->all(), $id);
 
-        Flash::success('House updated successfully.');
+        Alert::success('Success','House updated successfully.');
 
         return redirect(route('houses.index'));
     }
@@ -113,14 +113,14 @@ class HouseController extends AppBaseController
         $house = $this->houseRepository->find($id);
 
         if (empty($house)) {
-            Flash::error('House not found');
+            Alert::error('Error','House not found');
 
             return redirect(route('houses.index'));
         }
 
         $this->houseRepository->delete($id);
 
-        Flash::success('House deleted successfully.');
+        Alert::success('Success','House deleted successfully.');
 
         return redirect(route('houses.index'));
     }

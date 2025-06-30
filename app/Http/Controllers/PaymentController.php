@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
 use Flash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends AppBaseController
 {
@@ -52,7 +53,7 @@ class PaymentController extends AppBaseController
 
         $payment = $this->paymentRepository->create($input);
 
-        Flash::success('Payment saved successfully.');
+        Alert::success('Success','Payment saved successfully.');
 
         return redirect(route('payments.index'));
     }
@@ -65,7 +66,7 @@ class PaymentController extends AppBaseController
         $payment = $this->paymentRepository->find($id);
 
         if (empty($payment)) {
-            Flash::error('Payment not found');
+            Alert::error('Error','Payment not found');
 
             return redirect(route('payments.index'));
         }
@@ -84,7 +85,7 @@ class PaymentController extends AppBaseController
         $payment = $this->paymentRepository->find($id);
 
         if (empty($payment)) {
-            Flash::error('Payment not found');
+            Alert::error('Error','Payment not found');
 
             return redirect(route('payments.index'));
         }
@@ -102,14 +103,14 @@ class PaymentController extends AppBaseController
         $payment = $this->paymentRepository->find($id);
 
         if (empty($payment)) {
-            Flash::error('Payment not found');
+            Alert::error('Error','Payment not found');
 
             return redirect(route('payments.index'));
         }
 
         $payment = $this->paymentRepository->update($request->all(), $id);
 
-        Flash::success('Payment updated successfully.');
+        Alert::success('Success','Payment updated successfully.');
 
         return redirect(route('payments.index'));
     }
@@ -124,14 +125,14 @@ class PaymentController extends AppBaseController
         $payment = $this->paymentRepository->find($id);
 
         if (empty($payment)) {
-            Flash::error('Payment not found');
+            Alert::error('Error','Payment not found');
 
             return redirect(route('payments.index'));
         }
 
         $this->paymentRepository->delete($id);
 
-        Flash::success('Payment deleted successfully.');
+        Alert::success('Success','Payment deleted successfully.');
 
         return redirect(route('payments.index'));
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Repositories\TenantRepository;
 use Illuminate\Http\Request;
 use Flash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TenantController extends AppBaseController
 {
@@ -46,7 +47,7 @@ class TenantController extends AppBaseController
 
         $tenant = $this->tenantRepository->create($input);
 
-        Flash::success('Tenant saved successfully.');
+        Alert::success('Success','Tenant saved successfully.');
 
         return redirect(route('tenants.index'));
     }
@@ -59,7 +60,7 @@ class TenantController extends AppBaseController
         $tenant = $this->tenantRepository->find($id);
 
         if (empty($tenant)) {
-            Flash::error('Tenant not found');
+            Alert::error('Error','Tenant not found');
 
             return redirect(route('tenants.index'));
         }
@@ -75,7 +76,7 @@ class TenantController extends AppBaseController
         $tenant = $this->tenantRepository->find($id);
 
         if (empty($tenant)) {
-            Flash::error('Tenant not found');
+            Alert::error('Error','Tenant not found');
 
             return redirect(route('tenants.index'));
         }
@@ -91,14 +92,14 @@ class TenantController extends AppBaseController
         $tenant = $this->tenantRepository->find($id);
 
         if (empty($tenant)) {
-            Flash::error('Tenant not found');
+            Alert::error('Error','Tenant not found');
 
             return redirect(route('tenants.index'));
         }
 
         $tenant = $this->tenantRepository->update($request->all(), $id);
 
-        Flash::success('Tenant updated successfully.');
+        Alert::success('Success','Tenant updated successfully.');
 
         return redirect(route('tenants.index'));
     }
@@ -113,14 +114,14 @@ class TenantController extends AppBaseController
         $tenant = $this->tenantRepository->find($id);
 
         if (empty($tenant)) {
-            Flash::error('Tenant not found');
+            Alert::error('Error','Tenant not found');
 
             return redirect(route('tenants.index'));
         }
 
         $this->tenantRepository->delete($id);
 
-        Flash::success('Tenant deleted successfully.');
+        Alert::success('Success','Tenant deleted successfully.');
 
         return redirect(route('tenants.index'));
     }
