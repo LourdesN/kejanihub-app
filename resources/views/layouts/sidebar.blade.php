@@ -2,7 +2,7 @@
 
     {{-- Brand Logo --}}
     <a href="{{ route('home') }}" class="brand-link" style="background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.3);">
-        <img src="{{ asset('kejalogo.png') }}"
+        <img src="{{ asset('kejalogo.jpg') }}"
              alt="Kejahub Logo"
              class="brand-image img-circle elevation-3">
         <span class="brand-text font-weight-bold" style="color: #FC466B;">{{ config('app.name') }}</span>
