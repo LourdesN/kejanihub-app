@@ -6,6 +6,7 @@ use App\DataTables\LeaseDataTable;
 use App\Http\Requests\CreateLeaseRequest;
 use App\Http\Requests\UpdateLeaseRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Lease;
 use App\Models\Tenant;
 use App\Models\Unit;
 use App\Repositories\LeaseRepository;
@@ -46,16 +47,19 @@ class LeaseController extends AppBaseController
     /**
      * Store a newly created Lease in storage.
      */
-    public function store(CreateLeaseRequest $request)
-    {
-        $input = $request->all();
+  public function store(Request $request)
+{
+    $lease = Lease::create($request->all());
 
-        $lease = $this->leaseRepository->create($input);
+    // Update the unit status
+    $unit = $lease->unit;
+    $unit->unit_status = 'Occupied';
+    $unit->save();
 
-        Flash::success('Lease saved successfully.');
+    Flash::success('Lease saved successfully.');
+    return redirect(route('leases.index'));
+}
 
-        return redirect(route('leases.index'));
-    }
 
     /**
      * Display the specified Lease.
@@ -117,19 +121,23 @@ class LeaseController extends AppBaseController
      * @throws \Exception
      */
     public function destroy($id)
-    {
-        $lease = $this->leaseRepository->find($id);
+{
+    $lease = Lease::find($id);
+    if ($lease) {
+        $unit = $lease->unit;
+        $lease->delete();
 
-        if (empty($lease)) {
-            Flash::error('Lease not found');
+        // Check if this was the only lease
+        $hasOtherLeases = Lease::where('unit_id', $unit->id)->exists();
 
-            return redirect(route('leases.index'));
+        if (!$hasOtherLeases) {
+            $unit->unit_status = 'Vacant';
+            $unit->save();
         }
-
-        $this->leaseRepository->delete($id);
-
-        Flash::success('Lease deleted successfully.');
-
-        return redirect(route('leases.index'));
     }
+
+    Flash::success('Lease deleted successfully.');
+    return redirect(route('leases.index'));
+}
+
 }

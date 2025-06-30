@@ -32,5 +32,14 @@ class Unit extends Model
     public function house()
     {
     return $this->belongsTo(House::class);
-   }    
+   } 
+       public function leases()
+        {
+            return $this->hasMany(Lease::class);
+        }
+    
+        public function tenants()
+        {
+            return $this->hasMany(Tenant::class);
+        }   
 }
