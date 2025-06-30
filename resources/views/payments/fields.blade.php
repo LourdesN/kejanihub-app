@@ -42,5 +42,18 @@
 <!-- Month Paid For Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('month_paid_for', 'Month Paid For:') !!}
-    {!! Form::text('month_paid_for', null, ['class' => 'form-control', 'required', 'maxlength' => 255, 'maxlength' => 255]) !!}
+    {!! Form::select('month_paid_for', [
+        'January' => 'January',
+        'February' => 'February',
+        'March' => 'March',
+        'April' => 'April',
+        'May' => 'May',
+        'June' => 'June',
+        'July' => 'July',
+        'August' => 'August',
+        'September' => 'September',
+        'October' => 'October',
+        'November' => 'November',
+        'December' => 'December'
+    ], null, ['class' => 'form-control', 'placeholder' => 'Select Month', 'required']) !!}
 </div>
