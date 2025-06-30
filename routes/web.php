@@ -28,3 +28,10 @@ Route::get('payments/debtors', [App\Http\Controllers\PaymentController::class, '
 Route::resource('payments', App\Http\Controllers\PaymentController::class);
 Route::resource('tenants', App\Http\Controllers\TenantController::class);
 Route::resource('units', App\Http\Controllers\UnitController::class);
+
+
+Route::get('/notifications', function () {
+    $notifications = auth()->user()->notifications;
+
+    return view('notifications.index', compact('notifications'));
+})->name('notifications.index');
