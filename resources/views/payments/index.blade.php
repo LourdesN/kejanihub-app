@@ -39,6 +39,10 @@
                     <h1 class="page-header">💰 Payments</h1>
                 </div>
                 <div class="col-sm-6 text-right">
+                    <a href="{{ route('payments.debtors') }}" class="btn btn-danger float-right mb-2 ml-4">
+                        <i class="fas fa-user-minus"></i> Debtors
+                   </a>
+
                     <a class="btn btn-primary" href="{{ route('payments.create') }}">
                         <i class="fas fa-plus-circle mr-1"></i> Add New
                     </a>

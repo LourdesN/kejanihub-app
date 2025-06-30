@@ -34,4 +34,9 @@
     {!! Form::label('month_paid_for', 'Month Paid For:') !!}
     <p>{{ $payment->month_paid_for }}</p>
 </div>
+<!-- Year Paid For Field -->
+<div class="col-sm-12">
+    {!! Form::label('year_paid_for', 'Year Paid For:') !!}
+    <p>{{ $payment->year_paid_for }}</p>
+</div>  
 

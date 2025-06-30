@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,7 @@ Auth::routes();
 
 Route::resource('houses', App\Http\Controllers\HouseController::class);
 Route::resource('leases', App\Http\Controllers\LeaseController::class);
+Route::get('payments/debtors', [App\Http\Controllers\PaymentController::class, 'debtors'])->name('payments.debtors');
 Route::resource('payments', App\Http\Controllers\PaymentController::class);
 Route::resource('tenants', App\Http\Controllers\TenantController::class);
 Route::resource('units', App\Http\Controllers\UnitController::class);

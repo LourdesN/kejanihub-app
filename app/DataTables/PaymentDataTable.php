@@ -87,7 +87,8 @@ class PaymentDataTable extends DataTable
             'amount_paid',
             'payment_method',
             'transaction_code',
-            'month_paid_for'
+            'month_paid_for',
+            'year_paid_for' => ['title' => 'Year Paid For'],
         ];
     }
 

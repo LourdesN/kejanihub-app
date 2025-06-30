@@ -57,3 +57,9 @@
         'December' => 'December'
     ], null, ['class' => 'form-control', 'placeholder' => 'Select Month', 'required']) !!}
 </div>
+<!-- Year Paid For Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('year_paid_for', 'Year Paid For:') !!}
+    {!! Form::number('year_paid_for', now()->year, ['class' => 'form-control', 'required']) !!}
+</div>
+

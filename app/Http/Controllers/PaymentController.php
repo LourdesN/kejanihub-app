@@ -7,6 +7,7 @@ use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Lease;
+use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use Illuminate\Http\Request;
 use Flash;
@@ -134,4 +135,43 @@ class PaymentController extends AppBaseController
 
         return redirect(route('payments.index'));
     }
+
+  public function debtors()
+{
+    $currentMonth = now()->format('F');
+    $currentYear = now()->year;
+
+    $leases = Lease::with(['tenant', 'unit'])->get();
+
+    $debtors = $leases->filter(function ($lease) use ($currentMonth, $currentYear) {
+        $expected = $lease->unit->monthly_rent ?? 0;
+
+        $paid = Payment::where('lease_id', $lease->id)
+            ->where('month_paid_for', $currentMonth)
+            ->whereYear('payment_date', $currentYear)
+            ->sum('amount_paid');
+
+        return $paid < $expected;
+    })->map(function ($lease) use ($currentMonth, $currentYear) {
+        $expected = $lease->unit->monthly_rent ?? 0;
+
+        $paid = Payment::where('lease_id', $lease->id)
+            ->where('month_paid_for', $currentMonth)
+            ->whereYear('payment_date', $currentYear)
+            ->sum('amount_paid');
+
+        $balance = $expected - $paid;
+
+        return [
+            'tenant_name' => $lease->tenant->first_name . ' ' . $lease->tenant->last_name,
+            'unit_number' => $lease->unit->unit_number,
+            'monthly_rent' => $expected,
+            'amount_paid' => $paid,
+            'balance' => $balance,
+        ];
+    });
+
+    return view('payments.debtors', compact('debtors'));
+}
+
 }

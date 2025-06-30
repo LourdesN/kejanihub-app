@@ -14,7 +14,8 @@ class Payment extends Model
         'amount_paid',
         'payment_method',
         'transaction_code',
-        'month_paid_for'
+        'month_paid_for',
+        'year_paid_for',
     ];
 
     protected $casts = [
@@ -31,6 +32,7 @@ class Payment extends Model
         'payment_method' => 'required|string|max:100',
         'transaction_code' => 'nullable|string|max:100',
         'month_paid_for' => 'required|string|max:255',
+        'year_paid_for' => 'required|integer|min:1900|max:2100',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
