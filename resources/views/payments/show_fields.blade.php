@@ -1,19 +1,20 @@
 <!-- Lease Id Field -->
 <div class="col-sm-12">
-    {!! Form::label('lease_id', 'Lease Id:') !!}
-    <p>{{ $payment->lease_id }}</p>
+    {!! Form::label('lease_id', 'Leased To:') !!}
+    <p>{{ $leases[$payment->lease_id] ?? 'N/A' }}</p>
 </div>
+
 
 <!-- Payment Date Field -->
 <div class="col-sm-12">
     {!! Form::label('payment_date', 'Payment Date:') !!}
-    <p>{{ $payment->payment_date }}</p>
+    <p>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d-m-y') }}</p>
 </div>
 
 <!-- Amount Paid Field -->
 <div class="col-sm-12">
     {!! Form::label('amount_paid', 'Amount Paid:') !!}
-    <p>{{ $payment->amount_paid }}</p>
+    <p>Shs. {{ $payment->amount_paid }}</p>
 </div>
 
 <!-- Payment Method Field -->

@@ -68,8 +68,11 @@ class PaymentController extends AppBaseController
 
             return redirect(route('payments.index'));
         }
+           $leases = Lease::with(['tenant', 'unit'])->get()->mapWithKeys(function ($lease) {
+        return [$lease->id => $lease->tenant->first_name . ' ' . $lease->tenant->last_name . ' - ' . $lease->unit->unit_number];
+        });
 
-        return view('payments.show')->with('payment', $payment);
+        return view('payments.show')->with('payment', $payment )->with('leases', $leases);
     }
 
     /**
