@@ -32,7 +32,12 @@
             @endif
 
             <div class="card shadow-lg border-0 rounded-lg">
+                
                 <div class="card-body px-4 py-5 bg-light">
+                    <h5 class="mb-3 text-secondary font-weight-bold">
+                        Profile Information 
+                    </h5>
+
 
                     <form method="POST" action="{{ route('profile.update') }}">
                         @csrf
@@ -69,6 +74,11 @@
                             <button type="submit" class="btn btn-primary px-4">
                                 <i class="fas fa-save mr-1"></i> Update Profile
                             </button>
+                        </div>
+                        <div class=" text-left">
+                            <a href="{{ url('/home') }}" class="btn btn-m btn-dark">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                            </a>
                         </div>
 
                     </form>
