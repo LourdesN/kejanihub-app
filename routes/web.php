@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Auth::routes();
 Route::resource('houses', App\Http\Controllers\HouseController::class);
 Route::resource('leases', App\Http\Controllers\LeaseController::class);
 Route::get('payments/debtors', [App\Http\Controllers\PaymentController::class, 'debtors'])->name('payments.debtors');
+Route::get('/debtors/pdf', [PaymentController::class, 'exportDebtorsPdf'])->name('debtors.pdf');
 Route::resource('payments', App\Http\Controllers\PaymentController::class);
 Route::resource('tenants', App\Http\Controllers\TenantController::class);
 Route::resource('units', App\Http\Controllers\UnitController::class);
@@ -41,3 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+
+

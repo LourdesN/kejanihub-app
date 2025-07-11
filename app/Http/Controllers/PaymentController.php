@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\Lease;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
@@ -188,6 +189,49 @@ if ($debtors->isEmpty()) {
 
     return view('payments.debtors', compact('debtors', 'paginatedDebtors'))
         ->with('i', ($currentPage - 1) * $perPage + 1);
+}
+
+
+public function exportDebtorsPdf()
+{
+    $leases = Lease::with(['tenant', 'unit'])->get();
+    $now = now();
+    $debtorList = collect();
+
+    foreach ($leases as $lease) {
+        $start = Carbon::parse($lease->start_date)->startOfMonth();
+        $end = $now->copy()->startOfMonth();
+
+        while ($start <= $end) {
+            $monthName = $start->format('F');
+            $year = $start->year;
+
+            $expected = $lease->unit->monthly_rent ?? 0;
+
+            $paid = Payment::where('lease_id', $lease->id)
+                ->where('month_paid_for', $monthName)
+                ->whereYear('payment_date', $year)
+                ->sum('amount_paid');
+
+            if ($paid < $expected) {
+                $debtorList->push([
+                    'tenant_name' => $lease->tenant->first_name . ' ' . $lease->tenant->last_name,
+                    'unit_number' => $lease->unit->unit_number,
+                    'month' => $monthName,
+                    'year' => $year,
+                    'monthly_rent' => $expected,
+                    'amount_paid' => $paid,
+                    'balance' => $expected - $paid,
+                ]);
+            }
+
+            $start->addMonth(); // Move to next month
+        }
+    }
+
+    $pdf = Pdf::loadView('payments.debtors_pdf', ['debtors' => $debtorList]);
+
+    return $pdf->download('debtors_report.pdf');
 }
 
 }

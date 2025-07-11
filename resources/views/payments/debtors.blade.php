@@ -3,8 +3,12 @@
 @section('content')
     <section class="content-header">
   <div class="container-fluid">
-    <h3 class="mb-4">🧾 Debtors</h3>
-
+    <div>
+    <h3 class="mb-4 text-left">🧾 Debtors</h3>
+     <a href="{{ route('debtors.pdf') }}" class="btn btn-danger mb-3">
+      <i class="fas fa-file-pdf"></i> Download PDF
+     </a>
+    </div>
     @if ($debtors->isEmpty())
         <div class="alert alert-success text-center">
             All tenants have cleared their rent this month ✅
