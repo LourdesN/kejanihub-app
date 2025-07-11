@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
   <div class="container-fluid">
-    <h3 class="mb-4">🧾 Debtors for {{ now()->format('F Y') }}</h3>
+    <h3 class="mb-4">🧾 Debtors</h3>
 
     @if ($debtors->isEmpty())
         <div class="alert alert-success text-center">
@@ -15,6 +15,8 @@
                 <tr>
                     <th>Tenant</th>
                     <th>Unit</th>
+                    <th>Month</th>
+                    <th>Year</th>
                     <th>Monthly Rent</th>
                     <th>Amount Paid</th>
                     <th>Balance</th>
@@ -25,13 +27,23 @@
                     <tr>
                         <td>{{ $debtor['tenant_name'] }}</td>
                         <td>{{ $debtor['unit_number'] }}</td>
+                         <td>{{ $debtor['month'] }}</td>
+                        <td>{{ $debtor['year'] }}</td>
                         <td>Ksh {{ number_format($debtor['monthly_rent']) }}</td>
                         <td>Ksh {{ number_format($debtor['amount_paid']) }}</td>
-                        <td class="text-danger"><strong>Ksh {{ number_format($debtor['balance']) }}</strong></td>
+                       <td class="{{ $debtor['balance'] >= 5000 ? 'bg-danger text-white font-weight-bold' : 'text-danger' }}">
+    <strong>Ksh {{ number_format($debtor['balance']) }}</strong>
+</td>
+
                     </tr>
                 @endforeach
+
             </tbody>
         </table>
+        <div class="text-center mt-4">
+            {{ $paginatedDebtors->links() }}
+        </div>
+
     @endif
 </div>
         <div class="text-center mt-4">

@@ -9,8 +9,10 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\Lease;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Pagination\LengthAwarePaginator;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends AppBaseController
@@ -137,42 +139,55 @@ class PaymentController extends AppBaseController
         return redirect(route('payments.index'));
     }
 
-  public function debtors()
+
+public function debtors()
 {
-    $currentMonth = now()->format('F');
-    $currentYear = now()->year;
-
     $leases = Lease::with(['tenant', 'unit'])->get();
+    $debtors = collect();
 
-    $debtors = $leases->filter(function ($lease) use ($currentMonth, $currentYear) {
-        $expected = $lease->unit->monthly_rent ?? 0;
+    foreach ($leases as $lease) {
+        $monthlyRent = $lease->unit->monthly_rent ?? 0;
+        $start = Carbon::parse($lease->start_date ?? $lease->created_at)->startOfMonth();
+        $now = now()->startOfMonth();
 
-        $paid = Payment::where('lease_id', $lease->id)
-            ->where('month_paid_for', $currentMonth)
-            ->whereYear('payment_date', $currentYear)
-            ->sum('amount_paid');
+        while ($start <= $now) {
+            $month = $start->format('F');
+            $year = $start->year;
 
-        return $paid < $expected;
-    })->map(function ($lease) use ($currentMonth, $currentYear) {
-        $expected = $lease->unit->monthly_rent ?? 0;
+            $paid = Payment::where('lease_id', $lease->id)
+                ->where('month_paid_for', $month)
+                ->whereYear('payment_date', $year)
+                ->sum('amount_paid');
 
-        $paid = Payment::where('lease_id', $lease->id)
-            ->where('month_paid_for', $currentMonth)
-            ->whereYear('payment_date', $currentYear)
-            ->sum('amount_paid');
+            if ($paid < $monthlyRent) {
+                $debtors->push([
+                    'tenant_name' => $lease->tenant->first_name . ' ' . $lease->tenant->last_name,
+                    'unit_number' => $lease->unit->unit_number,
+                    'month' => $month,
+                    'year' => $year,
+                    'monthly_rent' => $monthlyRent,
+                    'amount_paid' => $paid,
+                    'balance' => $monthlyRent - $paid,
+                ]);
+            }
 
-        $balance = $expected - $paid;
+            $start->addMonth();
+        }
+    }
 
-        return [
-            'tenant_name' => $lease->tenant->first_name . ' ' . $lease->tenant->last_name,
-            'unit_number' => $lease->unit->unit_number,
-            'monthly_rent' => $expected,
-            'amount_paid' => $paid,
-            'balance' => $balance,
-        ];
-    });
+if ($debtors->isEmpty()) {
+        Alert::success('Success', 'No outstanding rent.');
+        return redirect()->back();
+    }   
 
-    return view('payments.debtors', compact('debtors'));
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $perPage = 10;
+    $currentItems = $debtors->slice(($currentPage - 1) * $perPage, $perPage)->values();
+    $paginatedDebtors = new LengthAwarePaginator($currentItems, $debtors->count(), $perPage, $currentPage);
+
+
+    return view('payments.debtors', compact('debtors', 'paginatedDebtors'))
+        ->with('i', ($currentPage - 1) * $perPage + 1);
 }
 
 }
