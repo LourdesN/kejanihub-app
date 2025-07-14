@@ -1,7 +1,7 @@
 <!-- House Id Field -->
 <div class="col-sm-12">
     {!! Form::label('house_id', 'House:') !!}
-    <p>{{ $unit->house->id }}</p>
+    <p>{{ $unit->house->name }}</p>
 </div>
 
 <!-- Unit Number Field -->

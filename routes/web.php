@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::get('/mpesa/register-urls', [MpesaController::class, 'registerC2BUrls']);
+
+Route::post('/callback', [MpesaController::class, 'handleC2BCallback']);
+Route::post('/validate', [MpesaController::class, 'handleC2BValidation']);
+Route::post('/confirm', [MpesaController::class, 'handleC2BConfirmation']);
+
 
 
 
