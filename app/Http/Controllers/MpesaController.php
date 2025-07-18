@@ -7,6 +7,7 @@ use App\Models\Tenant;
 use App\Models\Lease;
 use App\Models\Payment;
 use App\Models\MpesaPayment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -103,5 +104,14 @@ public function viewPayments()
     $payments = MpesaPayment::orderBy('payment_date', 'desc')->get();
     return view('mpesa.payments', compact('payments'));
 }
+
+public function downloadPaymentsPdf()
+{
+    $payments = MpesaPayment::orderBy('payment_date', 'desc')->get();
+    $pdf = Pdf::loadView('mpesa.payments_pdf', compact('payments'));
+
+    return $pdf->download('mpesa_payments.pdf');
+}
+
 
 }

@@ -51,6 +51,7 @@ Route::post('/callback', [MpesaController::class, 'handleC2BCallback']);
 Route::post('/validate', [MpesaController::class, 'handleC2BValidation']);
 Route::post('/confirm', [MpesaController::class, 'handleC2BConfirmation']);
 Route::get('/mpesa-payments', [MpesaController::class, 'viewPayments'])->name('mpesa.payments');
+Route::get('/mpesa-payments/pdf', [MpesaController::class, 'downloadPaymentsPdf'])->name('mpesa.payments.pdf');
 
 
 

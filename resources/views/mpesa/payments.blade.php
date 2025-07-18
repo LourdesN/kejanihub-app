@@ -4,7 +4,10 @@
 <div class="container">
     <h2 class="mb-4">M-Pesa Payments</h2>
     <p class="mb-4">Below is a list of all M-Pesa payments made through the system.</p>
-    
+
+    <div class="mb-3">
+        <a href="{{ route('mpesa.payments.pdf') }}" class="btn btn-primary">Download PDF Report</a>
+    </div>
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
             <tr>
