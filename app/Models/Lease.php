@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lease extends Model
+class Lease extends Model implements \OwenIt\Auditing\Contracts\Auditable
 {
+     use \OwenIt\Auditing\Auditable;
     public $table = 'leases';
 
     public $fillable = [

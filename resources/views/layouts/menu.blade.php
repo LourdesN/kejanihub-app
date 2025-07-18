@@ -48,6 +48,14 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('audit.logs') }}" class="nav-link {{ Request::is('audit-logs') ? 'active' : '' }}">
+        <i class="fas fa-file-alt"></i>
+        <p>Audit Logs</p>
+    </a>
+</li>
+
+
 
 
 
