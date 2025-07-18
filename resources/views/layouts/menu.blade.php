@@ -41,6 +41,13 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('mpesa.payments') }}" class="nav-link {{ Request::is('mpesa-payments') ? 'active' : '' }}">
+        <i class="fas fa-mobile-alt"></i>
+        <p>M-Pesa Payments</p>
+    </a>
+</li>
+
 
 
 
