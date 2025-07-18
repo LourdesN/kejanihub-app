@@ -7,7 +7,10 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-
+ 
+    <div class="mb-3">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
+    </div>
 
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
@@ -43,7 +46,7 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-content">
-                      <div class="modal-header bg-warning">
+                      <div class="modal-header bg-pink">
                         <h5 class="modal-title">Change Password - {{ $user->name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
@@ -58,7 +61,7 @@
                           </div>
                       </div>
                       <div class="modal-footer">
-                          <button type="submit" class="btn btn-warning">Update</button>
+                          <button type="submit" class="btn btn-primary">Update</button>
                       </div>
                     </div>
                 </form>
