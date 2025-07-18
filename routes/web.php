@@ -4,6 +4,7 @@ use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\MpesaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -55,7 +56,12 @@ Route::get('/mpesa-payments', [MpesaController::class, 'viewPayments'])->name('m
 Route::get('/mpesa-payments/pdf', [MpesaController::class, 'downloadPaymentsPdf'])->name('mpesa.payments.pdf');
 Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit.logs');
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::post('/users', [UsersController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}/change-password', [UsersController::class, 'updatePassword'])->name('users.change-password');
+    Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
+});
 
 
 

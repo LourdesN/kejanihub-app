@@ -1,11 +1,11 @@
 <aside class="main-sidebar elevation-4" style="background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%); color: #fff; font-family: 'Poppins', sans-serif;">
 
     {{-- Brand Logo --}}
-    <a href="{{ route('home') }}" class="brand-link" style="background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.3);">
+    <a href="{{ route('home') }}" class="brand-link" style="background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.3);  text-decoration: none;">
         <img src="{{ asset('kejalogo.jpg') }}"
              alt="Kejahub Logo"
              class="brand-image img-circle elevation-3">
-        <span class="brand-text font-weight-bold" style="color: #FC466B;">{{ config('app.name') }}</span>
+        <span class="brand-text font-weight-bold" style="color: #FC466B;  text-decoration: none;">{{ config('app.name') }}</span>
     </a>
 
     {{-- Sidebar --}}
