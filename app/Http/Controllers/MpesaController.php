@@ -47,15 +47,18 @@ class MpesaController extends Controller
     {
         $data = $request->all();
 
-        // Save raw data and log transaction
-        $payment = MpesaPayment::create([
-            'transaction_code' => $data['TransID'] ?? uniqid(),
-            'phone_number' => $data['MSISDN'] ?? 'unknown',
-            'amount' => $data['TransAmount'] ?? 0,
-            'account_reference' => 'Rent',
-            'payment_date' => now(),
-            'raw_data' => json_encode($data),
-        ]);
+       $payerName = trim(($data['FirstName'] ?? '') . ' ' . ($data['MiddleName'] ?? '') . ' ' . ($data['LastName'] ?? ''));
+
+       $payment = MpesaPayment::create([
+        'transaction_code'   => $data['TransID'] ?? uniqid(),
+        'phone_number'       => $data['MSISDN'] ?? 'unknown',
+        'amount'             => $data['TransAmount'] ?? 0,
+        'account_reference'  => $data['BillRefNumber'] ?? 'Rent',
+        'payment_date'       => now(),
+        'payer_name'         => $payerName !== '' ? $payerName : null,
+        'raw_data'           => json_encode($data),
+      ]);
+
 
         // Optionally link to tenant by phone or BillRefNumber
         $tenant = Tenant::where('phone_number', $payment->phone_number)->first();

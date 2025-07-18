@@ -71,6 +71,7 @@
                 <th>ID</th>
                 <th>Transaction Code</th>
                 <th>Phone Number</th>
+                <th>Payer Name</th>
                 <th>Amount</th>
                 <th>Account Reference</th>
                 <th>Payment Date</th>
@@ -82,6 +83,7 @@
                     <td>{{ $payment->id }}</td>
                     <td>{{ $payment->transaction_code }}</td>
                     <td>{{ $payment->phone_number }}</td>
+                    <td>{{ $payment->payer_name }}</td>
                     <td>Kshs {{ number_format($payment->amount, 2) }}</td>
                     <td>{{ $payment->account_reference }}</td>
                     <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d M Y H:i') }}</td>
