@@ -111,6 +111,10 @@
         top: 100% !important;
         right: 0;
     }
+    .fa-bell {
+        color: palevioletred;
+        font-size: 1.5rem;
+    }
 
         </style>
         
