@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Font Awesome (No integrity to avoid blocking issues) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+
 <div class="container">
     <h3 class="mb-4 text-primary">Users in the System</h3>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
- 
+
     <div class="mb-3">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
     </div>
@@ -46,18 +49,28 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-content">
-                      <div class="modal-header bg-pink">
+                      <div class="modal-header bg-warning">
                         <h5 class="modal-title">Change Password - {{ $user->name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                       </div>
                       <div class="modal-body">
                           <div class="mb-3">
                               <label>New Password</label>
-                              <input type="password" name="password" class="form-control" required>
+                              <div class="input-group">
+                                  <input type="password" name="password" id="password-field-{{ $user->id }}" class="form-control">
+                                  <div class="input-group-text" style="cursor:pointer" onclick="togglePassword('password-field-{{ $user->id }}', 'toggle-icon-{{ $user->id }}')">
+                                      <i class="fas fa-eye" id="toggle-icon-{{ $user->id }}"></i>
+                                  </div>
+                              </div>
                           </div>
                           <div class="mb-3">
                               <label>Confirm Password</label>
-                              <input type="password" name="password_confirmation" class="form-control" required>
+                              <div class="input-group">
+                                  <input type="password" name="password_confirmation" id="confirm-password-field-{{ $user->id }}" class="form-control">
+                                  <div class="input-group-text" style="cursor:pointer" onclick="togglePassword('confirm-password-field-{{ $user->id }}', 'toggle-confirm-icon-{{ $user->id }}')">
+                                      <i class="fas fa-eye" id="toggle-confirm-icon-{{ $user->id }}"></i>
+                                  </div>
+                              </div>
                           </div>
                       </div>
                       <div class="modal-footer">
@@ -93,11 +106,21 @@
               </div>
               <div class="mb-3">
                   <label>Password</label>
-                  <input type="password" name="password" class="form-control" required>
+                  <div class="input-group">
+                      <input type="password" name="password" id="password-field-add" class="form-control" required>
+                      <div class="input-group-text" style="cursor:pointer" onclick="togglePassword('password-field-add', 'toggle-icon-add')">
+                          <i class="fas fa-eye" id="toggle-icon-add"></i>
+                      </div>
+                  </div>
               </div>
               <div class="mb-3">
                   <label>Confirm Password</label>
-                  <input type="password" name="password_confirmation" class="form-control" required>
+                  <div class="input-group">
+                      <input type="password" name="password_confirmation" id="confirm-password-field-add" class="form-control" required>
+                      <div class="input-group-text" style="cursor:pointer" onclick="togglePassword('confirm-password-field-add', 'toggle-confirm-icon-add')">
+                          <i class="fas fa-eye" id="toggle-confirm-icon-add"></i>
+                      </div>
+                  </div>
               </div>
           </div>
           <div class="modal-footer">
@@ -108,10 +131,19 @@
   </div>
 </div>
 @endsection
-@section('scripts')
-<!-- Bootstrap 5.3.2 Bundle (JS + Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
-        crossorigin="anonymous"></script>
 
-@endsection
+@yield('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+<script>
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    const isPassword = input.type === 'password';
+    
+    input.type = isPassword ? 'text' : 'password';
+    icon.classList.toggle('fa-eye', !isPassword);
+    icon.classList.toggle('fa-eye-slash', isPassword);
+}
+</script>
+
