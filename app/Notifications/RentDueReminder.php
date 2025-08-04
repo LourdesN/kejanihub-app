@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\DatabaseMessage;
 
 class RentDueReminder extends Notification
 {
@@ -9,14 +8,14 @@ class RentDueReminder extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // Only store in the DB
+        return ['database'];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Rent Due',
-            'message' => "Dear {$this->tenant->first_name}, your rent of Ksh {$this->amount} for unit {$this->unit->unit_number} is due this month.",
+            'title' => 'Tenant Rent Due',
+            'message' => "Tenant {$this->tenant->first_name} has not paid rent of Ksh {$this->amount} for Unit {$this->unit->unit_number}.",
         ];
     }
 }
